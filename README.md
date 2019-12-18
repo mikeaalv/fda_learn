@@ -1,2 +1,3 @@
 # fda_learn
-learning fda method and relevant codes
+learning functional data analysis method and relevant codes
+
