@@ -6,7 +6,9 @@ smooth_derivative.m: wrap up of the script for smoothing spline by GCV in:
 
 Ramsay, James & Hooker, Giles & Graves, Spencer. (2009). Functional data analysis with R and MATLAB. 10.1007/978-0-387-98185-7.
 
-smooth_derivative_test.m: example and test script for smooth_derivative.m
+fda_pca.m: wrap up of the script for fda pca for a fixed lambda
+
+*_test.m: corresponding test script
 
 ## Usage
 

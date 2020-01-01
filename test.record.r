@@ -46,3 +46,15 @@ densityList=density.fd(RegPrec,WfdPar)
 meanlogprec=mean(logprec.fd)
 stddevlogprec=std.fd(logprec.fd)
 logprecvar.bifd=var.fd(logprec.fd)#eval.bifd
+
+#functional pca
+pca.fd(fdobj,nharm=2,harmfdPar=fdPar(fdobj),centerfns=TRUE)
+#varmx simplify the expression reduce number of nonzero weight
+logprec.rotpcalist=varmx.pca.fd(logprec.pcalist)
+#functional correlation
+ccalist=cca.fd(temp.fd,logprec.fd,ncon,ccafdPar,ccafdPar)
+
+#functional linear model
+## scalar ~ Function
+fRegressList=fRegress(annualprec,templist,betalist)
+## Response as function: fANOVA

@@ -3,7 +3,7 @@ function [returnstr]=smooth_derivative(Ymat,xvec,loglambda_vec,nDer)
 % spline on both the original function and its derivatives are supported
 % B-spline will be used, and lambda value will be searched based on GCV (generalized cross-validation)
 % Argument:
-%%          Ymat: 2d numeric matrix. The value to be smoothed. Each column is different curve and each row is the different index in the curve (such as time), represented by xvec. If there is missing value, deal with it before using this function. Must be provided.
+%%          Ymat: 2d numeric matrix. The value to be smoothed. Each column is different curve and each row is the different index in the curve (such as time), represented by xvec. If there is missing value, deal with it before using this function. Must be provided. Ymat can also be 3d, index * replicate * variables
 %%          xvec: 1d numeric array corresponding to the rows in Ymat. Ex: time sequence. Must be provided. Carefully choose the unit, so that the subinterval is not too far from 1.
 %%          loglambda_vec: 1d numeric array. the grid for log10 lambda. Default -6:1:2. The user is highly recommended to try different values.
 %%          nDer: int. the highest derivative to be analzed in following workflow. Default 0.
@@ -44,7 +44,7 @@ for i=1:nlambda
    lambda=10^loglambda_vec(i);
    fdPari=fdPar(bbasis,int2Lfd(nsmooth),lambda);
    [fdres,dfi,gcvi]=smooth_basis(xvec,Ymat,fdPari);
-   gcvsave(i)=sum(gcvi);
+   gcvsave(i)=sum(gcvi(:));
    dfsave(i)=dfi;
    spfdcell{i}=fdres;
 end

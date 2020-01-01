@@ -67,7 +67,7 @@ axis([min(age),max(age),-20,10])
 
 %example 2
 %% test on ridge tracking data set
-load('/Users/mikeaalv/Dropbox (Edison_Lab@UGA)/Projects/Bioinformatics_modeling/spectral.related/fda.test/mapped.newmeth.experiment.manual.mat')
+load('/Users/mikeaalv/Dropbox (Edison_Lab@UGA)/Projects/Bioinformatics_modeling/spectral.related/fda.test/tracing.newmeth.experiment.manual.mat')
 isample=1;
 ntime=52;
 nridges=60;
@@ -85,7 +85,7 @@ for i=1:nridges
 end
 loglambda_vec= -4:0.25:4;
 res=smooth_derivative(ymat,xvec,loglambda_vec,1)
-#best log lambda 2
+%best log lambda 2
 rangcheck=randsample(nridges,5)%1:5;%randsample(nridges,10);%35:40%1:10%14:20%
 fdres=res.spfd_selec;
 xfine=linspace(min(xvec),max(xvec),201)';
