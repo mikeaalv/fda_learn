@@ -67,6 +67,7 @@ isequaln(res.fdarotpcastr,testrec.fdarotpcastr)
 
 %example 2
 %% test on ridge tracking data set
+%% smooth the curve first and then PCA
 close all;
 clear all;
 load('/Users/mikeaalv/Dropbox (Edison_Lab@UGA)/Projects/Bioinformatics_modeling/spectral.related/fda.test/tracing.newmeth.experiment.manual.mat')
@@ -91,7 +92,18 @@ for isample=1:nsample
     ymat(:,isample,i)=locintvec;
   end
 end
-ymat(find(isnan(ymat)))=min(ymat(:));
+naid=find(isnan(ymat));
+ymat(naid)=min(ymat(:));
+%% add small noise for NA ridges in some samples
+snoise_sd=min(abs(ymat(:)))*0.01;
+ymat(naid)=ymat(naid)+normrnd(0,snoise_sd,1,length(naid))';
+%% center and scale for each feature
+for i=1:nsample
+  for j=1:maxridges
+    shiftv=ymat(:,i,j)-mean(ymat(:,i,j));
+    ymat(:,i,j)=shiftv./std(shiftv);
+  end
+end
 loglambda_vec= -4:0.25:4;
 res=smooth_derivative(ymat,xvec,loglambda_vec,nDer)
 %best log lambda 2
@@ -118,7 +130,8 @@ norder=nsmooth+2;
 nbasis=length(xvec)+norder-2;
 bbasis=create_bspline_basis([min(xvec) max(xvec)],nbasis,norder,xvec);
 % fdafd92=smooth_basis(fdatime,fdaarray,fdabasis92);
-lambdapc=0.01;
+% lambdapc=0.01;
+lambdapc=0.0;
 fdParpc=fdPar(bbasis,nsmooth,lambdapc);
 colsele=jet(2);
 colvec=zeros([nsample,3]);

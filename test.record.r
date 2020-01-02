@@ -57,4 +57,13 @@ ccalist=cca.fd(temp.fd,logprec.fd,ncon,ccafdPar,ccafdPar)
 #functional linear model
 ## scalar ~ Function
 fRegressList=fRegress(annualprec,templist,betalist)
-## Response as function: fANOVA
+## Response as function: fANOVA or Fregresion {Concurrent model or more}
+CVi=fRegress.CV(birdRegress,xfdlist,betalisti)#cross validation for lambda choice
+## Fregresion beyond Concurrent model
+linmodSmooth=linmod(NextYear,LastYear,betaList)
+## t test on statistics (permutation)
+tperm.fd(hgtmfd,hgtffd)
+## F test on statistics (permutation)
+F.res=Fperm.fd(temp36fd,regionList,betaList)
+# principal differential analysis
+pdaList=pda.fd(lipfd,bwtlist)
