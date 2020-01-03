@@ -51,10 +51,10 @@ logprecvar.bifd=var.fd(logprec.fd)#eval.bifd
 pca.fd(fdobj,nharm=2,harmfdPar=fdPar(fdobj),centerfns=TRUE)
 #varmx simplify the expression reduce number of nonzero weight
 logprec.rotpcalist=varmx.pca.fd(logprec.pcalist)
-#functional correlation
+#functional canonical correlation
 ccalist=cca.fd(temp.fd,logprec.fd,ncon,ccafdPar,ccafdPar)
 
-#functional linear model
+#functional linear model (can also answer traditional correlation questions)
 ## scalar ~ Function
 fRegressList=fRegress(annualprec,templist,betalist)
 ## Response as function: fANOVA or Fregresion {Concurrent model or more}
