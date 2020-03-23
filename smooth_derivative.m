@@ -1,4 +1,4 @@
-function [returnstr]=smooth_derivative(Ymat,xvec,loglambda_vec,nDer)
+function [returnstr]=smooth_derivative(Ymat,xvec,loglambda_vec,nDer,plotflag)
 % a wrap up for smoothing spline in Functional Data Analysis (FDA)
 % spline on both the original function and its derivatives are supported
 % B-spline will be used, and lambda value will be searched based on GCV (generalized cross-validation)
@@ -7,6 +7,7 @@ function [returnstr]=smooth_derivative(Ymat,xvec,loglambda_vec,nDer)
 %%          xvec: 1d numeric array corresponding to the rows in Ymat. Ex: time sequence. Must be provided. Carefully choose the unit, so that the subinterval is not too far from 1.
 %%          loglambda_vec: 1d numeric array. the grid for log10 lambda. Default -6:1:2. The user is highly recommended to try different values.
 %%          nDer: int. the highest derivative to be analzed in following workflow. Default 0.
+%%          plotflag: bool. If true plot the GCV curve. If false do not plot
 % Return:   returnstr: struct.
 % CITATION:
 %         Ramsay, James & Hooker, Giles & Graves, Spencer. (2009). Functional data analysis with R and MATLAB. 10.1007/978-0-387-98185-7.
@@ -29,6 +30,9 @@ end
 if ~exist('nDer','var')
   nDer=0;
 end
+if ~exist('plotflag','var')
+  plotflag=false;
+end
 % smoothing penalty is based on second derivative
 nsmooth=nDer+2;
 % to make use of nth order derivatives, the order of spline basis need at least to be n+2
@@ -48,10 +52,12 @@ for i=1:nlambda
    dfsave(i)=dfi;
    spfdcell{i}=fdres;
 end
-h=figure()
-  plot(loglambda_vec,gcvsave,'k-o');
-  ylabel('GCV');
-  xlabel('loglambda');
+if plotflag
+  h=figure()
+    plot(loglambda_vec,gcvsave,'k-o');
+    ylabel('GCV');
+    xlabel('loglambda');
+end
 
 [gcv_select,minind]=min(gcvsave);
 returnstr=struct();
