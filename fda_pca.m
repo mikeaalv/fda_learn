@@ -22,7 +22,8 @@ function [returnstr]=fda_pca(linefda,pcfda,npc,colvec)
 %     http://www.psych.mcgill.ca/misc/fda/downloads/FDAfuns/
 %
 % CAUTION:
-% the function seems to have bugs for multi-dim FDA PCA.
+% 1. the function seems to have bugs for multi-dim FDA PCA.
+% 2. Although varmx is suggested moslty to make the pc more intepretatble, it seems it will affect the order of PCs. So the plotting here all depends on result before varmx. 
 % YUE WU 01012020
 
 
@@ -55,7 +56,7 @@ h1=figure();
   xlabel('Eigenvalue Number');
   ylabel('Eigenvalue');
 %  plot factor scores
-harmscr=fdarotpcastr.harmscr;
+harmscr=fdapcastr.harmscr;
 h2=figure();
   scatter(harmscr(:,1),harmscr(:,2),[],colvec,'filled');
   xlabel('pc1');
