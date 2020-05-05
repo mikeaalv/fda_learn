@@ -23,7 +23,7 @@ function [returnstr]=fda_pca(linefda,pcfda,npc,colvec)
 %
 % CAUTION:
 % 1. the function seems to have bugs for multi-dim FDA PCA.
-% 2. Although varmx is suggested moslty to make the pc more intepretatble, it seems it will affect the order of PCs. So the plotting here all depends on result before varmx. 
+% 2. Although varmx is suggested moslty to make the pc more intepretatble, it seems it will affect the order of PCs. So the plotting here all depends on result before varmx.
 % YUE WU 01012020
 
 
