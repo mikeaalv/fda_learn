@@ -231,26 +231,23 @@ h2=figure();
 close all;
 clear all;
 load('/Users/mikeaalv/Dropbox (Edison_Lab@UGA)/Projects/Bioinformatics_modeling/spectral.related/fda.test/tracing.newmeth.experiment.manual.mat')
-nsample=1;%%just use sample 1
-isample=1;
+isample=1;%%just use sample 1
 ntime=52;
-maxridges=60;
 nDer=1;%maximal derivative to consider
 xvec=1:ntime;
-ymat=NaN(ntime,maxridges,nsample);
-for isample=1:nsample
-  dataset=Sample(isample).ridges;
-  nridges=size(dataset,2)-1;
-  for i=1:nridges
-    locstr=Sample(isample).ridges(i+1).result;
-    timevec=locstr.rowind;
-    intensity=locstr.intensity;
-    indvec=matchPPMs(timevec',xvec);
-    locintvec=NaN(1,ntime);
-    locintvec(indvec)=intensity;
-    locintvec(find(isnan(locintvec)))=min(intensity);
-    ymat(:,i,isample)=locintvec;
-  end
+dataset=Sample(isample).ridges;
+nridges=size(dataset,2)-1;
+ymat=NaN(ntime,nridges,1);
+
+for i=1:nridges
+  locstr=Sample(isample).ridges(i+1).result;
+  timevec=locstr.rowind;
+  intensity=locstr.intensity;
+  indvec=matchPPMs(timevec',xvec);
+  locintvec=NaN(1,ntime);
+  locintvec(indvec)=intensity;
+  locintvec(find(isnan(locintvec)))=min(intensity);
+  ymat(:,i,1)=locintvec;
 end
 naid=find(isnan(ymat));
 ymat(naid)=min(ymat(:));
@@ -258,11 +255,9 @@ ymat(naid)=min(ymat(:));
 snoise_sd=min(abs(ymat(:)))*0.01;
 ymat(naid)=ymat(naid)+normrnd(0,snoise_sd,1,length(naid))';
 %% center and scale for each feature
-for i=1:nsample
-  for j=1:maxridges
-    shiftv=ymat(:,j,i)-mean(ymat(:,j,i));
-    ymat(:,j,i)=shiftv./std(shiftv);
-  end
+for j=1:nridges
+  shiftv=ymat(:,j,1)-mean(ymat(:,j,1));
+  ymat(:,j,1)=shiftv./std(shiftv);
 end
 loglambda_vec= -4:0.25:4;
 res=smooth_derivative(ymat,xvec,loglambda_vec,nDer);
