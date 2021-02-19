@@ -56,7 +56,7 @@ casenames = getfdlabels(fdnames);
 if harm == 0
     harm = (1:nharm);
 end
-load_vec_array=[]
+load_vec_array=[];
 if length(dimfd) == 2
     %  plotting for univariate functions
     for iharm = harm
